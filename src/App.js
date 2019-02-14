@@ -28,10 +28,10 @@ class App extends Component {
 
           {this.props.mylist.map(ele => {
             return (
-              <li className="list">
-                <span >{ele.title}</span>
+              <li className="list">             
                 <span className="overlay"></span>
                 <img src={ele.img} className="image" />
+                <span >{ele.title}</span>
                 <button className="button" id={ele.id} onClick={this.handleRemove}> Remove </button>
               </li>
             )
@@ -42,11 +42,11 @@ class App extends Component {
 
           {this.props.recommendations.map(ele => {
             return (
-              <li className="list">
-                <span >{ele.title}</span>
+              <li className="list">      
                 <span className="overlay"></span>
                 <img src={ele.img} className="image" />
-                <button className="button" id = {ele.id} onClick={this.handleAdd}> ADD </button>
+                <span >{ele.title}</span>
+                <button className="button" id={ele.id} onClick={this.handleAdd}> ADD </button>
               </li>
             )
           })}
