@@ -1,91 +1,33 @@
 .App {
-  margin: 0px auto;
-  border: 1px solid lightgray;
-  width: 900px;
-  display: flex;
-  flex-flow: wrap column;
-  justify-content:  space-evenly;
-  height: 800px;
-  position: relative;
+
+  /* background-color: rgb(16,16,16);  */
+}
+
+.outtercontainer{
   background-color: rgb(16,16,16);
-}
-
-.title{
-  margin: 0;
-  padding: 0;
-  align-self:center;
-  color:whitesmoke;
-}
-
-.container{
-  display: flex;
-  list-style-type: none;
-  justify-content: space-evenly;
-  flex-flow: wrap row;
- 
-  margin: 0;
-  padding: 0;
-}
-
-.list{
   position: relative;
-  color:whitesmoke;
+  list-style-type: none;
+  
+  width: 900px;
+  padding: 0px;
   display: flex;
-  flex-flow: wrap column;
-  justify-content: space-between;
-  margin: 0;
-  padding: 0;
+  flex-flow: wrap row;
+  justify-content:  space-evenly;
+  align-items: center;
+  margin: 0px auto;
 }
 
-.button{
-  position: absolute;
-  transition: .5s ease;
-  opacity: 0;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  height: 30px;
-  background-color: gray;
-  border: none;
-  color:white;
-  border-radius: 5px;
+.outterlist{
+  
+  margin: 30px;
 }
 
-.image{
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: .5s ease;
-  backface-visibility: hidden;
-}
 
-.overlay {
-  position: absolute;
-  transition: .5s ease;
-  opacity: 0;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-}
 
- /* img:hover + .button, .button:hover{
-  visibility: visible;
-}  */
 
-.list:hover .image {
-  opacity: 0.3;
-}
 
-.list:hover .button {
-  opacity: 0.8;
-}
 
-.list:hover .overlay {
-  opacity: 1;
-}
+
 
 
 

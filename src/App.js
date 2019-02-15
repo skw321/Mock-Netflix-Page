@@ -1,57 +1,55 @@
 import React, { Component } from 'react';
 import './App.css';
-import { removeMyList, addMyList } from './reducer.js';
 import { connect } from "react-redux";
+import MoviePanel from './Components//MoviePanel';
+import { fetchMovies } from './reducer';
+
 
 
 class App extends Component {
 
   constructor(props) {
     super(props);
-
   }
 
-  handleRemove = (e) => {
-    console.log(e.target.id);
-    this.props.removeMyList(parseInt(e.target.id));
+  componentDidMount() {
+    console.log("componentDidMount");
+    this.props.fetchMovies("http://localhost:8888/movies");
   }
 
-  handleAdd = (e) => {
-    this.props.addMyList(parseInt(e.target.id));
-  }
 
   render() {
+
+
+    if (this.props.isLoading === true) {
+      return (
+        <h2>The page is loading...</h2>
+      )
+    }
+    if (this.props.hasError === true) {
+      return (
+        <h2>Sorry. Unable to reach server...</h2>
+      )
+    }
+
+    let movies = [{ mylist: this.props.mylist }, { recommendations: this.props.recommendations }];
+    console.log(movies);
+    let button = { mylist: "REMOVE", recommendations: "ADD" };
     return (
-      <div className="App">
-        <h2 className="title">Mylist</h2>
-        <ul className="container">
-
-          {this.props.mylist.map(ele => {
+      <div >
+        <ul className="outtercontainer">
+          {movies.map(list => {
             return (
-              <li className="list">             
-                <span className="overlay"></span>
-                <img src={ele.img} className="image" />
-                <span >{ele.title}</span>
-                <button className="button" id={ele.id} onClick={this.handleRemove}> Remove </button>
+              <li className="outterlist">
+                <MoviePanel
+                  list={Object.values(list)[0]}
+                  title={Object.keys(list)[0]}
+                  button={button[Object.keys(list)[0]]}
+                />
               </li>
             )
           })}
         </ul>
-        <h2 className="title">Recommendations </h2>
-        <ul className="container">
-
-          {this.props.recommendations.map(ele => {
-            return (
-              <li className="list">      
-                <span className="overlay"></span>
-                <img src={ele.img} className="image" />
-                <span >{ele.title}</span>
-                <button className="button" id={ele.id} onClick={this.handleAdd}> ADD </button>
-              </li>
-            )
-          })}
-        </ul>
-
       </div>
     );
   }
@@ -60,15 +58,16 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     mylist: state.mylist,
-    recommendations: state.recommendations
+    recommendations: state.recommendations,
+    isLoading: state.isLoading,
+    hasError: state.hasError
   };
 };
 
 
 const mapDispatchToProps = dispatch => {
   return {
-    removeMyList: (id) => { removeMyList.id = id; dispatch(removeMyList); },
-    addMyList: (id) => { addMyList.id = id; dispatch(addMyList); }
+    fetchMovies: (url) => { dispatch(fetchMovies(url)); }
   };
 };
 

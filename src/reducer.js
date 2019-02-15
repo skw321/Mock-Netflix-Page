@@ -1,72 +1,93 @@
+import axios from 'axios';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+
 const InitState = {
-    mylist: [
-        {
-            'title': 'Futurama',
-            'id': 1,
-            'img': 'http://cdn1.nflximg.net/webp/7621/3787621.webp'
-        },
-        {
-            'title': 'The Interview',
-            'id': 2,
-            'img': 'http://cdn1.nflximg.net/webp/1381/11971381.webp'
-        },
-        {
-            'title': 'Gilmore Girls',
-            'id': 3,
-            'img': 'http://cdn1.nflximg.net/webp/7451/11317451.webp'
-        }
-    ],
-    recommendations: [
-        {
-            'title': 'Family Guy',
-            'id': 4,
-            'img': 'http://cdn5.nflximg.net/webp/5815/2515815.webp'
-        },
-        {
-            'title': 'The Croods',
-            'id': 5,
-            'img': 'http://cdn3.nflximg.net/webp/2353/3862353.webp'
-        },
-        {
-            'title': 'Friends',
-            'id': 6,
-            'img': 'http://cdn0.nflximg.net/webp/3200/9163200.webp'
-        }
-    ]
+    mylist: [],
+    recommendations: [],
+    isLoading: false,
+    hasError: false
 };
 
 export const removeMyList = { type: "REMOVE", id: "" };
 export const addMyList = { type: "ADD", id: "" }
 
-// export function applyPromoCode(promo) {
+export function fetchMovies(url, page) {
+    return (dispatch) => {
+        dispatch(loadPage());
+        axios.get(url, page)
+            .then((response) => {
+                dispatch(saveMovies(response.data));
+            })
+            .catch((err) => {
+                dispatch(errorPage(err));
+            })
+    }
+}
 
-//   return (dispatch) => {
-//     console.log(promo);
-//     //dispatch(tenPercentOFF());
-//   };
-// }
+function loadPage() {
+    return {
+        type: "LOAD_PAGE",
+    }
+}
 
-// function tenPercentOFF() {
-//   return {
-//     type: "10%OFF"
-//   };
-// }
+function errorPage(err){
+    return {
+        type: "ERROR_PAGE"
+    }
+}
+
+function saveMovies(data){
+    return {
+        type: "SAVE_MOVIES",
+        data: data
+    }
+}
 
 const reducer = (state = InitState, action) => {
     console.log("action: " + action.type);
     console.log(action);
     switch (action.type) {
+        case "LOAD_PAGE":{
+            return {
+                ...state,
+                isLoading: true
+            }
+        }
+        case "ERROR_PAGE":{
+            return{
+                ...state,
+                isLoading: false,
+                hasError: true
+            }
+        }
+        case "SAVE_MOVIES":{
+            let newList = action.data.movies.mylist;
+            console.log(newList);
+            let newRecommendations = action.data.movies.recommendations;
+            console.log(newRecommendations);
+            return{
+                ...state,
+                isLoading: false,
+                errorPage: false,
+                mylist: newList,
+                recommendations: newRecommendations
+            }
+        }
         case "REMOVE": {
             let newList = state.mylist.filter(x => x.id !== action.id);
+            let addRecommendationsItem = state.mylist.filter(x => x.id === action.id);
+            let newRecommendations = [...state.recommendations, ...addRecommendationsItem];
             console.log(newList);
             return {
                 ...state,
-                mylist: newList
+                mylist: newList,
+                recommendations: newRecommendations
             }
         };
         case "ADD": {
             let addItem = state.recommendations.filter(x => x.id === action.id);
-            let newList = [...state.mylist,...addItem];
+            let newList = [...state.mylist, ...addItem];
             let newRecommendations = state.recommendations.filter(x => x.id !== action.id);
             return {
                 ...state,
@@ -79,5 +100,5 @@ const reducer = (state = InitState, action) => {
             return state;
     }
 };
-
-export default reducer;
+const store = createStore(reducer, InitState, applyMiddleware(thunk));
+export default store;
