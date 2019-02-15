@@ -20,7 +20,7 @@ Use the live demo link https://skw321.github.io/Mock-Netflix-Page/
 
 The page will show up in github publish environment.
 
-
+Or you can try npm start and available scripts as below.
 
 
 ######################################################
