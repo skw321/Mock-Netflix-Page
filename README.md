@@ -1,3 +1,31 @@
+##This project was built by
+
+1. React JS as front end library.
+
+2. Express JS to build Web API.
+
+3. AXIOS to make a HTTP Request.
+
+4. Redux to magnage React JS state.
+
+5. Thunk to deal with async http request with Redux.
+
+##How to start it
+
+The backend service is running on Node.js environment. Please install Node.js.
+
+Find the server.js file in the server folder, and run it by node server.js
+
+Use the live demo link https://skw321.github.io/Mock-Netflix-Page/
+
+The page will show up in github publish environment.
+
+
+
+
+######################################################
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
