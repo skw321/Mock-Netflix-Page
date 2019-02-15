@@ -1,4 +1,4 @@
-##This project was built by
+## This project was built by
 
 1. React JS as front end library.
 
@@ -10,7 +10,7 @@
 
 5. Thunk to deal with async http request with Redux.
 
-##How to start it
+## How to start it
 
 The backend service is running on Node.js environment. Please install Node.js.
 
